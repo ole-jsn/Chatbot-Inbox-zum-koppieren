@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Test Bot</title>
+  <link rel="icon" type="image/png" href="robot-face-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" href="style.css" />
+  <link href="email.html"/>
+</head>
+<style>
+  .split {
+    height: 100%;
+    display: flex;
+  }
+
+  .left {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.5s; /* Smooth transition for width changes */
+  }
+
+  .left.hidden {
+    width: 0;
+  }
+
+  .left-logged-in {
+    width: 28%; /* Änderung auf 30% */
+  }
+
+  .right {
+    flex-grow: 1;
+    overflow: hidden;
+    transition: flex-grow 0.5s; /* Smooth transition for flex-grow changes */
+  }
+
+  .right-logged-in {
+    flex-grow: 7; /* Änderung auf 70% */
+  }
+
+  .centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .sheet-container {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 20%;
+    padding: 20px;
+  }
+
+  .chat-messages {
+    flex-grow: 1;
+    height: 80%;
+    overflow-y: auto;
+  }
+
+  .input-container {
+    display: flex;
+    margin-top: 20px;
+  }
+
+  .input-field {
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 70%;
+  }
+
+  .submit-button {
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .toggle-button {
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px;
+    background-color: #ccc;
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+</style>
+<body>
+  <div class="split">
+    <div id="left-container" class="left hidden">
+      <div id="left-container" class="left hidden">
+  
+        <div class="chat-container">
+          <!-- Restlicher Code für den Chat-Bereich bleibt unverändert -->
+        </div>
+      </div>
+      
+      <div class="chat-container">
+        <div class="chat-messages">
+          <!-- Hier werden die Chatnachrichten angezeigt -->
+        </div>
+        <div class="input-container">
+          <input type="text" id="message-input" class="input-field" placeholder="Zeile eingeben..." />
+          <button id="submit-button" class="submit-button">Löschen</button>
+        </div>
+      </div>
+    </div>
+    <div id="right-container" class="right">
+      <div class="">
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="app">
+          <script type="module" src="/src/index.tsx"></script>
+        </div>
+      </div>
+    </div>
+    <div class="toggle-button" onclick="toggleLeftPanel()">»</div>
+    <table border="1" style="border-collapse: collapse; width: 100%; border: 1px solid black; margin-top: 20px;">
+      <thead>
+        <tr style="background-color: #f2f2f2;">
+          <th style="padding: 10px;">Thema</th>
+          <th style="padding: 10px;">Datum</th>
+          <th style="padding: 10px;">Löschen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Hier könnten weitere Zeilen hinzugefügt werden -->
+        <tr>
+          <td>ThemaWebhook</td>
+          <td style="padding: 10px;"><button style="background-color: red; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Löschen</button></td>
+        </tr>
+        <!-- Weitere Zeilen entsprechend dem Format oben einfügen, um weitere Daten anzuzeigen -->
+      </tbody>
+    </table>
+
+
+
+  </div>
+
+
+  <script>src="app.js"</script>
+  <script>
+      // Hier wird der Wert von meinWert in die index.html eingefügt
+      document.getElementById('receivedData').innerText = ThemaWebhook;
+  </script>
+  <script>
+    
+
+
+
+    function toggleLeftPanel() {
+      const leftPanel = document.getElementById('left-container');
+      leftPanel.classList.toggle('hidden');
+      const rightPanel = document.getElementById('right-container');
+      rightPanel.classList.toggle('right-logged-in');
+
+      const toggleButton = document.querySelector('.toggle-button');
+      toggleButton.textContent = leftPanel.classList.contains('hidden') ? '»' : '«';
+    }
+
+    // Webhook URL
+    const webhookUrl = 'https://hook.eu2.make.com/250mvvjqpbubgavsrvg5trmhyfv9njqy';
+    const websocketUrl = 'ws://localhost:8080'; // Ersetze 'localhost' mit der IP oder Domain deines Servers
+
+    // DOM-Elemente
+    const messageInput = document.getElementById('message-input');
+    const submitButton = document.getElementById('submit-button');
+    const chatMessages = document.querySelector('.chat-messages');
+
+    // Funktion zum Senden einer Nachricht
+    const sendMessage = () => {
+      const message = messageInput.value.trim();
+      if (message !== '') {
+        const payload = { message: message };
+
+        // Senden des Payloads an den Webhook
+        fetch(webhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        })
+          .then(response => {
+            if (response.ok) {
+              console.log('Die Nachricht wurde erfolgreich gesendet.');
+
+              // Senden der Nachricht über den WebSocket
+              const websocket = new WebSocket(websocketUrl);
+              websocket.onopen = () => {
+                websocket.send(message);
+                websocket.close();
+              };
+            } else {
+              console.error('Fehler beim Senden der Nachricht:', response.status);
+            }
+          })
+          .catch(error => {
+            console.error('Fehler beim Senden der Nachricht:', error);
+          });
+
+        // Zurücksetzen des Eingabefelds
+        messageInput.value = '';
+      }
+    };
+
+    // Event Listener für den Senden-Button
+    submitButton.addEventListener('click', sendMessage);
+
+    // Event Listener für die Eingabetaste im Eingabefeld
+    messageInput.addEventListener('keydown', event => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
+
+    function login() {
+      // Perform login logic here
+
+      // Update the CSS classes based on the login status
+      document.getElementById('left-container').classList.add('left-logged-in');
+      document.getElementById('right-container').classList.add('right-logged-in');
+    }
+
+    // Call the login function after a successful login
+    login();
+
+    const ws = new WebSocket('ws://localhost:5173');
+
+ws.addEventListener('open', () => {
+  console.log('WebSocket-Verbindung hergestellt.');
+});
+
+ws.addEventListener('message', (event) => {
+  console.log('Neue Nachricht empfangen: ', event.data);
+});
+
+ws.addEventListener('close', () => {
+  console.log('WebSocket-Verbindung geschlossen.');
+});
+  </script>
+</body>
+</html>
