@@ -114,6 +114,29 @@
           <!-- Restlicher Code für den Chat-Bereich bleibt unverändert -->
         </div>
       </div>
+
+      <table border="1" style="border-collapse: collapse; width: 100%; border: 1px solid black; margin-top: 20px;">
+        <thead>
+            <tr style="background-color: #f2f2f2;">
+                <th style="padding: 10px;">Thema</th>
+                <th style="padding: 10px;">Datum</th>
+                <th style="padding: 10px;">Löschen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Hier könnten weitere Zeilen hinzugefügt werden -->
+            <tr>
+                <!-- Hier füge JavaScript ein, um receivedData einzufügen -->
+                <td id="receivedDataArray" style="padding: 10px;"></td>
+                <td style="padding: 10px;">01.01.2023</td>
+                <td style="padding: 10px;">
+                    <button style="background-color: red; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Löschen</button>
+                </td>
+            </tr>
+            <!-- Weitere Zeilen entsprechend dem Format oben einfügen, um weitere Daten anzuzeigen -->
+        </tbody>
+    </table>
+    <script src="app.js" defer></script>
       
       <div class="chat-container">
         <div class="chat-messages">
@@ -134,39 +157,8 @@
       </div>
     </div>
     <div class="toggle-button" onclick="toggleLeftPanel()">»</div>
-    <table border="1" style="border-collapse: collapse; width: 100%; border: 1px solid black; margin-top: 20px;">
-      <thead>
-        <tr style="background-color: #f2f2f2;">
-          <th style="padding: 10px;">Thema</th>
-          <th style="padding: 10px;">Datum</th>
-          <th style="padding: 10px;">Löschen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Hier könnten weitere Zeilen hinzugefügt werden -->
-        <tr>
-          <td>ThemaWebhook</td>
-          <td style="padding: 10px;"><button style="background-color: red; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Löschen</button></td>
-        </tr>
-        <!-- Weitere Zeilen entsprechend dem Format oben einfügen, um weitere Daten anzuzeigen -->
-      </tbody>
-    </table>
-
-
-
   </div>
-
-
-  <script>src="app.js"</script>
   <script>
-      // Hier wird der Wert von meinWert in die index.html eingefügt
-      document.getElementById('receivedData').innerText = ThemaWebhook;
-  </script>
-  <script>
-    
-
-
-
     function toggleLeftPanel() {
       const leftPanel = document.getElementById('left-container');
       leftPanel.classList.toggle('hidden');
